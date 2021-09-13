@@ -1,0 +1,144 @@
+<DOCTYPE! html>
+    <html>
+        <head>
+            <title>Battleships</title>
+            <link rel="stylesheet" href="style.css">
+          
+       </head>
+        <body>
+            <div class="grid1"></div>
+            <div class="grid2"></div>
+            <div class="grid3"></div>
+            <div class="grid4"></div>
+            <div class="container1">
+                <div class="item">0</div>
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                <div class="item">6</div>
+                <div class="item">7</div>
+                <div class="item">8</div>
+                <div class="item">9</div>
+            </div>
+            <div class="container2">
+                <div class="item">0</div>
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                <div class="item">6</div>
+                <div class="item">7</div>
+                <div class="item">8</div>
+                <div class="item">9</div>
+            </div>
+            <div class="container3">
+                <div class="item">0</div>
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                <div class="item">6</div>
+                <div class="item">7</div>
+                <div class="item">8</div>
+                <div class="item">9</div>
+            </div>
+            <div class="container4">
+                <div class="item">0</div>
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                <div class="item">6</div>
+                <div class="item">7</div>
+                <div class="item">8</div>
+                <div class="item">9</div>
+            </div>
+            <div class="container5">
+                <div class="item">9</div>
+                <div class="item">8</div>
+                <div class="item">7</div>
+                <div class="item">6</div>
+                <div class="item">5</div>
+                <div class="item">4</div>
+                <div class="item">3</div>
+                <div class="item">2</div>
+                <div class="item">1</div>
+                <div class="item">0</div>
+            </div>
+            <div class="container6">
+                <div class="item">9</div>
+                <div class="item">8</div>
+                <div class="item">7</div>
+                <div class="item">6</div>
+                <div class="item">5</div>
+                <div class="item">4</div>
+                <div class="item">3</div>
+                <div class="item">2</div>
+                <div class="item">1</div>
+                <div class="item">0</div>
+            </div>
+            <div class="container7">
+                <div class="item">9</div>
+                <div class="item">8</div>
+                <div class="item">7</div>
+                <div class="item">6</div>
+                <div class="item">5</div>
+                <div class="item">4</div>
+                <div class="item">3</div>
+                <div class="item">2</div>
+                <div class="item">1</div>
+                <div class="item">0</div>
+            </div>
+            <div class="container8">
+                <div class="item">9</div>
+                <div class="item">8</div>
+                <div class="item">7</div>
+                <div class="item">6</div>
+                <div class="item">5</div>
+                <div class="item">4</div>
+                <div class="item">3</div>
+                <div class="item">2</div>
+                <div class="item">1</div>
+                <div class="item">0</div>
+            </div>
+            <!--Input space for ship placement-->
+            <label class="zPlacement" id="label1">Enter ship coordinates the folowing format:x,y,tilt<br>
+                                tilt=0 to place vertically, tilt=1 to place horizontally</label><br>
+            <input type="text" onfocus=this.value='' class="zPlacement" id="placementCoordinates1">
+            <button type="button" class="zPlacement" id="place1">Place</button>
+
+            <!--Input space for ship placement-->
+            <label class="zPlacement" id="label2">Enter ship coordinates the folowing format:x,y,tilt<br>
+                                tilt=0 to place vertically, tilt=1 to place horizontally</label><br>
+            <input type="text" onfocus=this.value='' class="zPlacement"id="placementCoordinates2">
+            <button type="button" class="zPlacement" id="place2">Place</button>
+
+            <!--Input space for shot placement-->
+            <label class="zShot" id="shotLabel1">Enter shot coordinates the folowing format:x,y</label><br>
+            <input type="text" onfocus=this.value='' class="zShot" id="shootingCoordinates1">
+            <button type="button" class="zShot" id="shoot1">Shoot</button>
+
+            <!--Input space for shot placement-->
+            <label class="zShot" id="shotLabel2">Enter shot coordinates the folowing format:x,y</label><br>
+            <input type="text" onfocus=this.value='' class="zShot" id="shootingCoordinates2">
+            <button type="button" class="zShot" id="shoot2">Shoot</button>
+
+            <!--Curtains to hide the maps from opposing players-->
+            <div id="curtain1"></div>
+            <div id="curtain2"></div>
+            <div id="curtain3"></div>
+            <div id="curtain4">You WON!</div>
+            <div id="error">wrong input</div>
+            <!-- <div id="message">you are placing a 1X1 ship</div> -->
+
+           
+            <button type="button" id="ready">Press when you're ready</button>
+        </body>
+        <script src="practice.js"></script>
+    </html>
+</DOCTYPE>
