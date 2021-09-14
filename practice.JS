@@ -295,39 +295,6 @@ placingShots = (enemyPlayerMap,shootButton,inputBox,curtain1,curtain2) => shootB
     }
 });
 
-// let mapList = [player1.ownMap,player2.ownMap];
-
-
-// let mapCheck = (map) => {  
-//     let count = 0;      // looping through the whole map
-//     for(let i=0;i<10;i++){
-//         for(let j=0;j<10;j++){
-//             if (map[i][j] == '1'){
-//                 count++;
-//             }
-//             if (count == 6){
-//                 document.getElementsByClassName("zPlacement").style.zIndex = -5;
-//                 document.getElementsByClassName("zShot").style.zIndex = 0;
-//             }
-//         }
-//     }
-// }
-// Ship(player1.ownMap, 3, [5,5]);
-
-// placingShots(player2.ownMap,shootButton1,inputBox1,curtain1,curtain2,changeTurns);
-// placingShots(player1.ownMap,shootButton2,inputBox2,curtain2,curtain1,changeTurns);
-// shooting = (playerMap,shootButton,inputBox,curtain1,curtain2,callback) => shootButton.addEventListener("click", () => {
-//     var userInput = inputBox.value.trim();
-//     userInput = parseInt(userInput);   
-//     let cord = [Math.floor(userInput/10),userInput%10];
-//     shot(cord,playerMap);
-//     curtain1.style.zIndex = 2;
-//     readyButton.style.zIndex = 1;
-//     callback(curtain2);
-// }) ;
-
-
-
 // THE GAME
 game = () => {
 changeTurns(curtain1);
@@ -335,16 +302,6 @@ changeTurns(curtain1);
    placingShips(player2.ownMap,placeButton2,inputBox2,curtain2,curtain1);
    placingShots(player2.ownMap,shootButton1,shootBox1,curtain1,curtain2);
    placingShots(player1.ownMap,shootButton2,shootBox2,curtain2,curtain1);
-//    for(let i=0;i<10;i++){           // looping through the whole map
-//            for(let j=0;j<10;j++){
-//                if (player2.ownMap[i][j] == '1'){
-//                    break;
-//                }
-//                else{ 
-
-//                }
-//            }
-//        }
 
 }
 
