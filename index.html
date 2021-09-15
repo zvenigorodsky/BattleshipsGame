@@ -107,14 +107,12 @@
                 <div class="item">0</div>
             </div>
             <!--Input space for ship placement-->
-            <label class="zPlacement" id="label1">Enter ship coordinates the folowing format:x,y,tilt<br>
-                                tilt=0 to place vertically, tilt=1 to place horizontally</label><br>
+            <label class="zPlacement" id="label1">Enter ship coordinates the folowing format:x,y</label><br>
             <input type="text" onfocus=this.value='' class="zPlacement" id="placementCoordinates1">
             <button type="button" class="zPlacement" id="place1">Place</button>
 
             <!--Input space for ship placement-->
-            <label class="zPlacement" id="label2">Enter ship coordinates the folowing format:x,y,tilt<br>
-                                tilt=0 to place vertically, tilt=1 to place horizontally</label><br>
+            <label class="zPlacement" id="label2">Enter ship coordinates the folowing format:x,y</label><br>
             <input type="text" onfocus=this.value='' class="zPlacement"id="placementCoordinates2">
             <button type="button" class="zPlacement" id="place2">Place</button>
 
@@ -134,7 +132,8 @@
             <div id="curtain3"></div>
             <div id="curtain4">You WON!</div>
             <div id="error">wrong input</div>
-            <!-- <div id="message">you are placing a 1X1 ship</div> -->
+            <div class="message" id="message1">you are placing a 1X1 ship</div>
+            <div class="message" id="message2">you are placing a 1X1 ship</div>
 
            
             <button type="button" id="ready">Press when you're ready</button>

@@ -40,14 +40,14 @@ changeDivClass = (position, div) => {
 caulculate = (cord) => cord[0]*10+cord[1];// caulculate position [x,y] => x*10+y == id
 
 
-Ship = (map, size, cord, dir = 0) => {   // cord must be an array as such [x,y]
+Ship = (map, size, cord, dir = 0) => {   // Cord must be an array as such [x,y]
     let position =caulculate(cord); 
     if (map == player2.ownMap){
         position += 200;
     }
     if (size == 1){
-        if (map[cord[0]][cord[1]] == 1){
-            console.log("a ship already exists at these coordinates"); // dont forget to implement with UI
+        if (map[cord[0]][cord[1]] == 1){ 
+            return 1;                   // error returns
         }
         else{
         changeDivClass(position, "ship");
@@ -56,27 +56,30 @@ Ship = (map, size, cord, dir = 0) => {   // cord must be an array as such [x,y]
     else if (size == 2){        
         if (dir == 0 && cord[1] < 9){
             if (map[cord[0]][cord[1]] == 1 ||
-                map[cord[0]][cord[1]+1] == 1){
-                console.log("a ship already exists at these coordinates"); // dont forget to implement with UI
-            }else{
-            changeDivClass(position, "ship");
-            changeDivClass(position + 1, "ship");
-            map[cord[0]][cord[1]] = 1;
-            map[cord[0]][cord[1]+1] = 1;
-        }}
+                map[cord[0]][cord[1]+1] == 1){ 
+                return 1;               // error returns
+            }
+            else{
+                changeDivClass(position, "ship");
+                changeDivClass(position + 1, "ship");
+                map[cord[0]][cord[1]] = 1;
+                map[cord[0]][cord[1]+1] = 1;
+            }   
+        }
         else if(dir == 1 && cord[0] < 9){
             if (map[cord[0]][cord[1]] == 1 || 
                 map[cord[0]+1][cord[1]] == 1){
-                console.log("a ship already exists at these coordinates"); // dont forget to implement with UI
+                return 1;               // error returns
             }
             else{
-            changeDivClass(position, "ship");
-            changeDivClass(position + 10, "ship");
-            map[cord[0]][cord[1]] = 1;
-            map[cord[0]+1][cord[1]] = 1;
-        }}
+                changeDivClass(position, "ship");
+                changeDivClass(position + 10, "ship");
+                map[cord[0]][cord[1]] = 1;
+                map[cord[0]+1][cord[1]] = 1;
+            }
+        }
         else{
-            console.log("wrong parameters"); // dont forget to implement with UI
+            return 1;                   // error returns
         }
     }
     else if (size == 3){
@@ -84,36 +87,40 @@ Ship = (map, size, cord, dir = 0) => {   // cord must be an array as such [x,y]
             if (map[cord[0]][cord[1]] == 1 ||
                 map[cord[0]][cord[1]+1] == 1 ||
                 map[cord[0]][cord[1]+2] == 1){
-                console.log("a ship already exists at these coordinates"); // dont forget to implement with UI
+                return 1;                   // error returns
             }
             else{
-            changeDivClass(position, "ship");
-            changeDivClass(position + 1, "ship");
-            changeDivClass(position + 2, "ship");
-            map[cord[0]][cord[1]] = 1;
-            map[cord[0]][cord[1]+1] = 1;
-            map[cord[0]][cord[1]+2] = 1;}}
+                changeDivClass(position, "ship");
+                changeDivClass(position + 1, "ship");
+                changeDivClass(position + 2, "ship");
+                map[cord[0]][cord[1]] = 1;
+                map[cord[0]][cord[1]+1] = 1;
+                map[cord[0]][cord[1]+2] = 1;
+            }
+        }
         else if(dir == 1 && cord[0] < 8){
             if (map[cord[0]][cord[1]] == 1 ||
                 map[cord[0]+1][cord[1]] == 1 ||
-                map[cord[0]+2][cord[1]] == 1){
-                console.log("a ship already exists at these coordinates"); // dont forget to implement with UI
+                map[cord[0]+2][cord[1]] == 1){           
+                return 1;               // error returns
             }
             else{
-            changeDivClass(position, "ship");
-            changeDivClass(position + 10, "ship");
-            changeDivClass(position + 20, "ship");
-            map[cord[0]][cord[1]] = 1;
-            map[cord[0]+1][cord[1]] = 1;
-            map[cord[0]+2][cord[1]] = 1;
-        }}
-        else{
-            console.log("wrong parameters"); // dont forget to implement with UI
+                changeDivClass(position, "ship");
+                changeDivClass(position + 10, "ship");
+                changeDivClass(position + 20, "ship");
+                map[cord[0]][cord[1]] = 1;
+                map[cord[0]+1][cord[1]] = 1;
+                map[cord[0]+2][cord[1]] = 1;
+            }
+        }
+        else{                   
+            return 1;                   // error returns
         }
     }
-        else{
-            console.log("wrong parameters"); // dont forget to implement with UI
+    else{
+        return 1;
     }
+    
 }
     
     
@@ -189,41 +196,53 @@ let shipCount = 0;
 placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton.addEventListener("click", putShip =function(){
     try{
         var userInput = inputBox.value.trim();
-        userInput = parseInt(userInput);   
-        let tilt = userInput%10;
-        let cord = [Math.floor(userInput/100),Math.floor((userInput/10)%10)]; //translating input to match proper syntax 
-        let size = 0;
-        if(shipCount < 6){
-            size = 1;
-            document.getElementById("message").style.zIndex = 10;
-            document.getElementById("message").style.color = "black";
-            document.getElementById("message").innerHTML = "you are placing a 1X1 ship"
+        userInput = parseInt(userInput);
+        let size = 1;
+        let tilt = 0;                                                                                                   
+        cord = [Math.floor(userInput/10),Math.floor(userInput%10)]; //Translating input to match proper syntax for the ship function
+        if(shipCount == 5){
+            setTimeout(()=> {
+            document.getElementById("label1").innerHTML = "Enter shot coordinates the folowing format:x,y,tilt <br> tilt=0 to place vertically, tilt=1 to place horizontally";
+            document.getElementById("label2").innerHTML = "Enter shot coordinates the folowing format:x,y,tilt <br> tilt=0 to place vertically, tilt=1 to place horizontally";
+            document.getElementsByClassName("message")[0].innerHTML = "you are placing a 2X1 ship";     
+            document.getElementsByClassName("message")[1].innerHTML = "you are placing a 2X1 ship";},1000);
         }
-        else if(shipCount < 12 && shipCount >= 6){
-            size = 2;
-            document.getElementById("message").style.zIndex = 10;
-            document.getElementById("message").style.color = "black";
-            document.getElementById("message").innerHTML = "you are placing a 2X1 ship"
+        else if(shipCount < 12 && shipCount >= 6){                                                         //Adding description to show what kind of ship you're placing, 
+            size = 2;                                                                                        //it iterates each ship 6 times overall (3 for each player)
+            tilt = userInput%10;
+            cord = [Math.floor(userInput/100),Math.floor((userInput/10)%10)];
+        } 
+        else if(shipCount == 11){
+            setTimeout(()=> {
+            document.getElementsByClassName("message")[0].innerHTML = "you are placing a 3X1 ship";
+            document.getElementsByClassName("message")[1].innerHTML = "you are placing a 3X1 ship";},1000);
         }
         else if(shipCount >= 12){
             size = 3;
-            document.getElementById("message").style.zIndex = 10;
-            document.getElementById("message").style.color = "black";
-            document.getElementById("message").innerHTML = "you are placing a 3X1 ship"
+            tilt = userInput%10;
+            cord = [Math.floor(userInput/100),Math.floor((userInput/10)%10)];
         }
-        shipCount++;
-        Ship(playerMap,size, cord, tilt);
-        curtain1.style.zIndex = 2;
-        readyButton.style.zIndex = 1;
-        changeTurns(curtain2);
-        let count = 0;      // looping through the whole map
+
+        if (Ship(playerMap,size,cord,tilt) == 1) {
+            // errorMessage("a ship already exists <br> at these coordinates");
+            
+        }
+        Ship(playerMap,size,cord,tilt)
+        shipCount++;  
+        setTimeout(() => {
+            console.log(shipCount)       
+            curtain1.style.zIndex = 2;
+            readyButton.style.zIndex = 1;
+            changeTurns(curtain2);}
+            ,1000);
+        let count = 0;              // Looping through the whole map to check for all placed ships
         for(let i=0;i<10;i++){
             for(let j=0;j<10;j++){
                 if (playerMap == player2.ownMap && playerMap[i][j] == '1'){
                     count++;
                 }
-                if (count == 18){
-                    for ( let i = 0;i<6;i++){
+                if (count == 18){                        // hiding all html elements that refer to ship placement
+                    for (let i = 0;i<6;i++){           
                     document.getElementsByClassName("zPlacement")[i].style.zIndex = -5;
                     document.getElementsByClassName("zShot")[i].style.zIndex = 0;
                 }
@@ -231,16 +250,12 @@ placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton
             }
         }
     }
-    catch(err){
-        document.getElementById("error").style.zIndex = 10;
-        document.getElementById("error").style.color = "black";
-        setTimeout(()=> {
-        document.getElementById("error").style.zIndex = -10;
-        document.getElementById("error").style.color = "white";
-        }, 3000);
+    catch(err){                 //Input error message     
+        console.log(err);                   //dont forget to remove
+        errorMessage("wrong input");
         placingShips(playerMap,placeButton,inputBox,curtain1,curtain2);
     }
-    
+     
 });
 
 let shootButton1 = document.getElementById("shoot1");
@@ -252,14 +267,15 @@ placingShots = (enemyPlayerMap,shootButton,inputBox,curtain1,curtain2) => shootB
     try {
     var userInput = inputBox.value.trim();
     userInput = parseInt(userInput);
-    let cord = [Math.floor(userInput/10),Math.floor(userInput%10)]; //translating input to match proper syntax 
+    let cord = [Math.floor(userInput/10),Math.floor(userInput%10)]; //Translating input to match proper syntax 
     shot(cord,enemyPlayerMap);
-    curtain1.style.zIndex = 2;
+    setTimeout(() => {curtain1.style.zIndex = 2;
     readyButton.style.zIndex = 1;
     changeTurns(curtain2);  
-    console.log(enemyPlayerMap);
+    console.log(enemyPlayerMap);}
+    ,1000);
     let countHits =0;
-    for(let i=0;i<10;i++){           // looping through the whole map
+    for(let i=0;i<10;i++){           // Looping through the whole map
         for(let j=0;j<10;j++){
             if (enemyPlayerMap[i][j] == '1'){
                 break;
