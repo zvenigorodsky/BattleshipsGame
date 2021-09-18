@@ -206,13 +206,13 @@ errorMessage = (message) => {
 let shipCount = 0;
 placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton.addEventListener("click", putShip =function(){
     try{
-        getInput = () => {
+        getInput = () => {                          // this function is needed to stop looping the error message for wrong ship placement
             var userInput = inputBox.value.trim();
             userInput = parseInt(userInput);
             return userInput;
         }
         userInput = getInput();
-        if((userInput > 999 && shipCount >= 6)||
+        if((userInput > 999 && userInput && shipCount >= 6)||
                 (userInput > 99 && shipCount < 6)){
                 throw "Wrong input";
             }
@@ -226,12 +226,12 @@ placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton
             document.getElementsByClassName("message")[0].innerHTML = "you are placing a 2X1 ship";     
             document.getElementsByClassName("message")[1].innerHTML = "you are placing a 2X1 ship";},1000);
         }
-        else if(shipCount == 11){
+        if(shipCount == 11){
             setTimeout(()=> {
             document.getElementsByClassName("message")[0].innerHTML = "you are placing a 3X1 ship";
             document.getElementsByClassName("message")[1].innerHTML = "you are placing a 3X1 ship";},1000);
         }
-        else if(shipCount < 12 && shipCount >= 6){                                                         //Adding description to show what kind of ship you're placing, 
+        if(shipCount < 12 && shipCount >= 6){                                                         //Adding description to show what kind of ship you're placing, 
             size = 2;                                                                                        //it iterates each ship 6 times overall (3 for each player)
             tilt = userInput%10;
             cord = [Math.floor(userInput/100),Math.floor((userInput/10)%10)];
@@ -242,7 +242,7 @@ placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton
             cord = [Math.floor(userInput/100),Math.floor((userInput/10)%10)];
         }
         if (Ship(playerMap,size,cord,tilt) == 1){  
-            throw "a ship already exists <br> at these coordinates";
+            throw "you cant place a ship<br> at these coordinates";
         }
         Ship(playerMap,size,cord,tilt)
         shipCount++;  
@@ -259,11 +259,11 @@ placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton
                     count++;
                 }
                 if (count == 18){                        // hiding all html elements that refer to ship placement
-                    for (let i = 0;i<6;i++){           
-                    document.getElementsByClassName("zPlacement")[i].style.zIndex = -5;
-                    document.getElementsByClassName("zShot")[i].style.zIndex = 0;
+                    for (let i = 0;i<8;i++){      
+                        if (i < 6) document.getElementsByClassName("zShot")[i].style.zIndex = 0;
+                        document.getElementsByClassName("zPlacement")[i].style.zIndex = -5;
+                    }
                 }
-            }
             }
         }
     }
@@ -281,38 +281,36 @@ let shootBox2 = document.getElementById("shootingCoordinates2");
 
 placingShots = (enemyPlayerMap,shootButton,inputBox,curtain1,curtain2) => shootButton.addEventListener("click",() => {
     try {
-    var userInput = inputBox.value.trim();
-    userInput = parseInt(userInput);
-    let cord = [Math.floor(userInput/10),Math.floor(userInput%10)]; //Translating input to match proper syntax 
-    shot(cord,enemyPlayerMap);
-    setTimeout(() => {curtain1.style.zIndex = 2;
-        readyButton.style.zIndex = 1;
-        changeTurns(curtain2);  
-        console.log(enemyPlayerMap);}
-        ,1000);
-    let countHits =0;
-    for(let i=0;i<10;i++){           // Looping through the whole map
-        for(let j=0;j<10;j++){
-            if (enemyPlayerMap[i][j] == '1'){
-                break;
-            }
-            else if(enemyPlayerMap[i][j] == '0' ||
-                    enemyPlayerMap[i][j] == '2'){
-                continue;
-            }
-            else if(enemyPlayerMap[i][j] == '3'){
-                countHits++;
-                if (countHits == 2){
-                    if (enemyPlayerMap == player1.ownMap){
+        var userInput = inputBox.value.trim();
+        userInput = parseInt(userInput);
+        let cord = [Math.floor(userInput/10),Math.floor(userInput%10)]; //Translating input to match proper syntax 
+        shot(cord,enemyPlayerMap);
+        setTimeout(() => {curtain1.style.zIndex = 2;
+            readyButton.style.zIndex = 1;
+            changeTurns(curtain2);  
+            console.log(enemyPlayerMap);}
+            ,1000);
+        let countHits1 = 0;
+        let countHits2 = 0;
+        for(let i=0;i<10;i++){           // Looping through the whole map
+            for(let j=0;j<10;j++){
+                if(player1.ownMap[i][j] == '3'){
+                    countHits1++;
+                    if (countHits1 == 2){
                         document.getElementById("curtain4").innerHTML = "Player 2 Won!";
+                        document.getElementById("curtain4").style.zIndex = 10;
+                        document.getElementById("curtain4").style.color = "black";
                     }
-                    else if(enemyPlayerMap == player2.ownMap){
+                else if(player2.ownMap[i][j] == '3'){
+                    countHits2++;
+                    if (countHits2 == 2){
                         document.getElementById("curtain4").innerHTML = "Player 1 Won!";
+                        document.getElementById("curtain4").style.zIndex = 10;
+                        document.getElementById("curtain4").style.color = "black";
                     }
-                    document.getElementById("curtain4").style.zIndex = 10;
-                    document.getElementById("curtain4").style.color = "black";
                 }
                 }
+                else continue;
             }
         }
     }
@@ -326,9 +324,7 @@ placingShots = (enemyPlayerMap,shootButton,inputBox,curtain1,curtain2) => shootB
 game = () => {
 changeTurns(curtain1);
    placingShips(player1.ownMap,placeButton1,inputBox1,curtain1,curtain2);
-   errorCount = false;
    placingShips(player2.ownMap,placeButton2,inputBox2,curtain2,curtain1);
-   errorCount = false;
    placingShots(player2.ownMap,shootButton1,shootBox1,curtain1,curtain2);
    placingShots(player1.ownMap,shootButton2,shootBox2,curtain2,curtain1);
 }
