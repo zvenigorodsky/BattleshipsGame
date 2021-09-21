@@ -213,9 +213,11 @@ placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton
         }
         userInput = getInput();
         if((userInput > 999 && userInput && shipCount >= 6)||
-                (userInput > 99 && shipCount < 6)){
+            (userInput > 99 && shipCount < 6)||
+            isNaN(userInput)){
                 throw "Wrong input";
             }
+        
         let size = 1;
         let tilt = 0;                                                                                                   
         cord = [Math.floor(userInput/10),Math.floor(userInput%10)]; //Translating input to match proper syntax for the ship function
@@ -258,7 +260,7 @@ placingShips = (playerMap,placeButton,inputBox,curtain1,curtain2) => placeButton
                 if (playerMap == player2.ownMap && playerMap[i][j] == '1'){
                     count++;
                 }
-                if (count == 18){                        // hiding all html elements that refer to ship placement
+                if (count == 3){                        //dont forget to swith it to 18// hiding all html elements that refer to ship placement
                     for (let i = 0;i<8;i++){      
                         if (i < 6) document.getElementsByClassName("zShot")[i].style.zIndex = 0;
                         document.getElementsByClassName("zPlacement")[i].style.zIndex = -5;
@@ -290,25 +292,21 @@ placingShots = (enemyPlayerMap,shootButton,inputBox,curtain1,curtain2) => shootB
             changeTurns(curtain2);  
             console.log(enemyPlayerMap);}
             ,1000);
-        let countHits1 = 0;
-        let countHits2 = 0;
+        let countHits = 0;
         for(let i=0;i<10;i++){           // Looping through the whole map
             for(let j=0;j<10;j++){
-                if(player1.ownMap[i][j] == '3'){
-                    countHits1++;
-                    if (countHits1 == 2){
+                if(enemyPlayerMap[i][j] == '3'){
+                    countHits++;
+                    if (enemyPlayerMap == player1.ownMap && countHits == 2){
                         document.getElementById("curtain4").innerHTML = "Player 2 Won!";
                         document.getElementById("curtain4").style.zIndex = 10;
                         document.getElementById("curtain4").style.color = "black";
                     }
-                else if(player2.ownMap[i][j] == '3'){
-                    countHits2++;
-                    if (countHits2 == 2){
+                    else if(enemyPlayerMap == player2.ownMap && countHits == 2){
                         document.getElementById("curtain4").innerHTML = "Player 1 Won!";
                         document.getElementById("curtain4").style.zIndex = 10;
                         document.getElementById("curtain4").style.color = "black";
                     }
-                }
                 }
                 else continue;
             }
@@ -316,6 +314,7 @@ placingShots = (enemyPlayerMap,shootButton,inputBox,curtain1,curtain2) => shootB
     }
     catch(err){
         errorMessage("Wrong input");
+        console.log(err);
         placingShots(enemyPlayerMap,shootButton,inputBox,curtain1,curtain2);
     }
 });
